@@ -5,5 +5,6 @@
   "Description": "Nametags for players in Stardew Valley.",
   "UniqueID": "tylergibbs2.StardewNametags",
   "EntryDll": "StardewNametags.dll",
-  "MinimumApiVersion": "3.12"
+  "MinimumApiVersion": "3.12",
+  "UpdateKeys": [ "GitHub:tylergibbs2/StardewNametags" ]
 }
