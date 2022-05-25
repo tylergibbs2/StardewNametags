@@ -1,7 +1,7 @@
 {
   "Name": "StardewNametags",
   "Author": "tylergibbs2",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Description": "Nametags for players in Stardew Valley.",
   "UniqueID": "tylergibbs2.StardewNametags",
   "EntryDll": "StardewNametags.dll",
