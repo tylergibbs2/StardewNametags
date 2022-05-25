@@ -23,7 +23,7 @@ namespace StardewNametags
             float drawLayer = farmer.getDrawLayer();
 
             b.Draw(Game1.staminaRect, new Rectangle(x, y, width, height), null, Color.Black * 0.6f, 0f, Vector2.Zero, SpriteEffects.None, drawLayer);
-            b.DrawString(font, farmer.name, new Vector2(x, y), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, drawLayer + 0.01f);
+            b.DrawString(font, farmer.name, new Vector2(x, y), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, drawLayer + 0.001f);
         }
     }
 }
