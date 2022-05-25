@@ -22,8 +22,7 @@ namespace StardewNametags
 
             helper.Events.GameLoop.SaveLoaded += (o, e) =>
             {
-                config = helper.ReadConfig<ModConfig>();  // Re-read the config when saves are loaded.
-                if (config.MultiplayerOnly && !Game1.IsMultiplayer)
+                if (config.MultiplayerOnly && !(Game1.IsClient || Game1.IsServer))
                 {
                     DisplayNames = false;
                     AllowToggle = false;
