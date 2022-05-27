@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
@@ -18,7 +18,7 @@ namespace StardewNametags
         public ModEntry()
         {
             Harmony harmony = new("tylergibbs2.stardewnametags");
-            harmony.PatchAll();
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
         public override void Entry(IModHelper helper)
         {
