@@ -26,7 +26,7 @@ namespace StardewNametags
 
             helper.Events.GameLoop.SaveLoaded += (o, e) =>
             {
-                if (Config.MultiplayerOnly && !(Game1.IsClient || Game1.IsServer))
+                if (Config.MultiplayerOnly && !Context.IsMultiplayer)
                 {
                     DisplayNames = false;
                     AllowToggle = false;
