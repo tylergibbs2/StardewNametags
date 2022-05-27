@@ -4,7 +4,7 @@ namespace StardewNametags
 {
     public class ModConfig
     {
-        public bool MultiplayerOnly { get; set; } = true;
+        public bool MultiplayerOnly { get; set; } = false;
         public KeybindList ToggleKey { get; set; } = KeybindList.Parse("F1");
 
         public string TextColor { get; set; } = "#FFFFFF";
