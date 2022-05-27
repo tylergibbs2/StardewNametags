@@ -1,8 +1,10 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
-using StardewValley;
+using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using System;
+using System.Reflection;
 
 namespace StardewNametags
 {
@@ -43,6 +45,81 @@ namespace StardewNametags
                 if (Config.ToggleKey.JustPressed() && AllowToggle)
                     DisplayNames = !DisplayNames;
             };
+
+            helper.Events.GameLoop.GameLaunched += SetupGMCM;
+        }
+
+        private void SetupGMCM(object sender, GameLaunchedEventArgs e)
+        {
+            IGenericModConfigMenuApi configMenu = Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
+            if (configMenu is null)
+                return;
+
+            configMenu.Register(
+                mod: ModManifest,
+                reset: () => Config = new ModConfig(),
+                save: () => Helper.WriteConfig(Config)
+            );
+
+            configMenu.OnFieldChanged(ModManifest, (o, e) =>
+            {
+                Config = Helper.ReadConfig<ModConfig>();
+                if (Config.MultiplayerOnly && !Context.IsMultiplayer)
+                {
+                    DisplayNames = false;
+                    AllowToggle = false;
+                }
+                else
+                    AllowToggle = true;
+            });
+
+            configMenu.AddBoolOption(
+                mod: ModManifest,
+                name: () => "Multiplayer Only",
+                tooltip: () => "Whether or not nametags are only visible in multiplayer",
+                getValue: () => Config.MultiplayerOnly,
+                setValue: value => Config.MultiplayerOnly = value
+            );
+
+            configMenu.AddKeybindList(
+                mod: ModManifest,
+                name: () => "Toggle Key",
+                tooltip: () => "The key used to toggle nametags",
+                getValue: () => Config.ToggleKey,
+                setValue: value => Config.ToggleKey = value
+            );
+
+            configMenu.AddTextOption(
+                mod: ModManifest,
+                name: () => "Text Color",
+                tooltip: () => "The hexadecimal color of the foreground text.",
+                getValue: () => Config.TextColor.ToUpper(),
+                setValue: value => Config.TextColor = value.ToUpper()
+            );
+
+            configMenu.AddTextOption(
+                mod: ModManifest,
+                name: () => "Background Color",
+                tooltip: () => "The hexadecimal color of the background box.",
+                getValue: () => Config.BackgroundColor.ToUpper(),
+                setValue: value => Config.BackgroundColor = value.ToUpper()
+            );
+
+            configMenu.AddNumberOption(
+                mod: ModManifest,
+                name: () => "Background Opacity",
+                tooltip: () => "The level of 'see-through' you want the backgrond box.",
+                getValue: () => Config.BackgroundOpacity,
+                setValue: value => Config.BackgroundOpacity = value
+            );
+
+            configMenu.AddBoolOption(
+                mod: ModManifest,
+                name: () => "Opacity on Text",
+                tooltip: () => "Whether or not to apply the background opacity to the text",
+                getValue: () => Config.AlsoApplyOpacityToText,
+                setValue: value => Config.AlsoApplyOpacityToText = value
+            );
         }
 
         private static Color ConvertFromHex(string s)
